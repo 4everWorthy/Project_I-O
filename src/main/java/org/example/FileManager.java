@@ -4,13 +4,15 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.io.IOException;
 import java.util.logging.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FileManager {
 
     private static final Logger logger = Logger.getLogger(FileManager.class.getName());
 
     public static void main(String[] args) {
-        String directoryPath = "C:\\Users\\kjaso\\OneDrive\\Desktop\\CTACT\\JAVA_FS103\\Assignment_I-O\\src\\main\\java\\org\\example\\testDirectory";
+        String directoryPath = "C:\\Users\\kjaso\\OneDrive\\Desktop\\CTACT\\JAVA_FS103\\Project_I-O\\src\\main\\java\\org\\example\\testDirectory";
         createDirectoryIfNotExists(directoryPath); // Ensure the directory exists
         listDirectoryContents(directoryPath); // List the contents of the directory
 
@@ -38,18 +40,43 @@ public class FileManager {
         } else {
             logger.log(Level.WARNING, "Source file for copying does not exist: " + sourceFilePath);
         }
+
+        // Test directory operations
+        String newDirectoryPath = directoryPath + "\\newDirectory";
+        createDirectoryIfNotExists(newDirectoryPath); // Test creating a new directory
+        deleteDirectory(newDirectoryPath); // Test deleting the new directory
+
+        // Test file search
+        searchFiles(directoryPath, ".txt"); // Search for .txt files in the directory
     }
 
     // Method to create the directory if it doesn't exist
     public static void createDirectoryIfNotExists(String directoryPath) {
         Path path = Paths.get(directoryPath);
-        if (!Files.exists(path)) {
+        if (!Files.exists(path)) { // If the path does not exist, the code inside the if block will be executed
             try {
-                Files.createDirectories(path);
+                Files.createDirectories(path); // If the directory doesn't exist, it will be created.
                 System.out.println("Directory created at: " + directoryPath);
             } catch (IOException e) {
                 logger.log(Level.SEVERE, "Error creating directory", e);
             }
+        }
+    }
+
+    public static void deleteDirectory(String directoryPath) {
+        Path path = Paths.get(directoryPath);
+
+        try {
+            if (Files.isDirectory(path) && Files.list(path).count() == 0) { // Check if the directory is empty before deleting
+                Files.delete(path);
+                System.out.println("Directory deleted: " + directoryPath);
+            } else if (Files.isDirectory(path)) {
+                logger.log(Level.WARNING, "Directory is not empty: " + directoryPath);
+            } else {
+                logger.log(Level.WARNING, "Not a directory: " + directoryPath);
+            }
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error deleting directory", e);
         }
     }
 
@@ -103,6 +130,27 @@ public class FileManager {
             System.out.println("File deleted: " + filePath);
         } catch (IOException e) {
             logger.log(Level.SEVERE, "Error deleting file", e);
+        }
+    }
+
+    // Method to search for files in the directory by extension
+    public static void searchFiles(String directoryPath, String searchPattern) {
+        Path path = Paths.get(directoryPath);
+        List<Path> matchingFiles = new ArrayList<>();
+
+        System.out.println("Searching in directory: " + directoryPath + " for pattern: *" + searchPattern);
+
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(path, "*" + searchPattern)) { // Open the directory stream with the search pattern
+            for (Path entry : stream) { // Loop through each entry that matches the search pattern
+                matchingFiles.add(entry);
+                System.out.println("Found: " + entry.getFileName()); // Print out each found file
+            }
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error searching files in directory", e);
+        }
+
+        if (matchingFiles.isEmpty()) { // If no matching files are found, notify the user
+            System.out.println("No files matching the pattern were found.");
         }
     }
 }
