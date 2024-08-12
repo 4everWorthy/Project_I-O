@@ -1,3 +1,14 @@
+/**
+ * This class contains methods to handle file-related operations such as copying, moving,
+ * and deleting files. It ensures that files are managed efficiently and includes a check
+ * to determine whether the destination path is a directory, allowing the file to be copied
+ * or moved into the directory with its original name if needed.
+ * Methods:
+ * - copyFile: Copies a file from the source path to the destination path.
+ * - moveFile: Moves a file from the source path to the destination path.
+ * - deleteFile: Deletes a file at the specified path.
+ */
+
 package org.example;
 
 import java.io.IOException;

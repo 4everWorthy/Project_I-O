@@ -1,3 +1,11 @@
+/**
+ * Main class of the file manager application. It provides the command-line
+ * interface (CLI) to interact with users. The class allows users
+ * to perform various file and directory operations such as displaying directory contents,
+ * copying, moving, and deleting files, creating and deleting directories, and searching
+ * for files based on name or extension.
+ */
+
 package org.example;
 
 import java.util.Scanner;

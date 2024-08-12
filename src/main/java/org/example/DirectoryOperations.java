@@ -1,3 +1,15 @@
+/**
+ * This class contains methods to manage directories, including creating new directories,
+ * deleting directories (even if they contain files), and displaying the contents of a
+ * specified directory. The contents displayed include file names, file sizes, and last
+ * modified dates, providing an overview of the directory's contents.
+ * Methods:
+ * - displayDirectoryContents: Displays the contents of a specified directory, including file names, sizes, and last modified dates.
+ * - createDirectory: Creates a new directory at the specified path.
+ * - deleteDirectory: Deletes a directory at the specified path, including any files or subdirectories it contains.
+ */
+
+
 package org.example;
 
 import java.io.File;  // Importing the File class
